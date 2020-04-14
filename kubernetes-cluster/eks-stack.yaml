@@ -563,43 +563,43 @@ Resources:
         HelmLambdaArn: !GetAtt FunctionStack.Outputs.HelmLambdaArn
         KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
-# Outputs:
-#   KubeConfigPath:
-#     Value: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
-#   HelmLambdaArn:
-#     Value: !GetAtt FunctionStack.Outputs.HelmLambdaArn
-#   KubeManifestLambdaArn:
-#     Value: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn
-#   KubeGetLambdaArn:
-#     Value: !GetAtt FunctionStack.Outputs.KubeGetLambdaArn
-#   # BastionIP:
-#   #   Value: !If
-#   #     - EnableBastion
-#   #     - !GetAtt BastionStack.Outputs.EIP1
-#   #     - ""
-#   # BastionSecurityGroup:
-#   #   Value: !If
-#   #     - EnableBastion
-#   #     - !GetAtt BastionStack.Outputs.BastionSecurityGroupID
-#   #     - ""
-#   # BastionAutoScalingGroup:
-#   #   Value: !If
-#   #     - EnableBastion
-#   #     - !GetAtt BastionStack.Outputs.BastionAutoScalingGroup
-#   #     - ""
-#   EKSClusterName:
-#     Value: !GetAtt EKSControlPlane.EKSName
-#   NodeInstanceProfile:
-#     Value: !GetAtt IamStack.Outputs.NodeInstanceProfile
-#   NodeInstanceRoleName:
-#     Value: !GetAtt IamStack.Outputs.NodeInstanceRoleName
-#   ControlPlaneSecurityGroup:
-#     Value: !GetAtt ControlPlaneSecurityGroup.GroupId
-#   NodeGroupSecurityGroup:
-#     Value: !GetAtt NodeGroupStack.Outputs.EKSNodeSecurityGroup
-#   NodeInstanceRoleArn:
-#     Value: !GetAtt IamStack.Outputs.NodeInstanceRoleArn
-#   CleanupSecurityGroupDependenciesLambdaArn:
-#     Value: !GetAtt FunctionStack.Outputs.CleanupSecurityGroupDependenciesLambdaArn
-#   NodeAutoScalingGroup:
-#     Value: !GetAtt NodeGroupStack.Outputs.NodeAutoScalingGroup
+Outputs:
+  KubeConfigPath:
+    Value: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
+  HelmLambdaArn:
+    Value: !GetAtt FunctionStack.Outputs.HelmLambdaArn
+  KubeManifestLambdaArn:
+    Value: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn
+  KubeGetLambdaArn:
+    Value: !GetAtt FunctionStack.Outputs.KubeGetLambdaArn
+  BastionIP:
+    Value: !If
+      - EnableBastion
+      - !GetAtt BastionStack.Outputs.EIP1
+      - ""
+  BastionSecurityGroup:
+    Value: !If
+      - EnableBastion
+      - !GetAtt BastionStack.Outputs.BastionSecurityGroupID
+      - ""
+  BastionAutoScalingGroup:
+    Value: !If
+      - EnableBastion
+      - !GetAtt BastionStack.Outputs.BastionAutoScalingGroup
+      - ""
+  EKSClusterName:
+    Value: !GetAtt EKSControlPlane.EKSName
+  NodeInstanceProfile:
+    Value: !GetAtt IamStack.Outputs.NodeInstanceProfile
+  NodeInstanceRoleName:
+    Value: !GetAtt IamStack.Outputs.NodeInstanceRoleName
+  ControlPlaneSecurityGroup:
+    Value: !GetAtt ControlPlaneSecurityGroup.GroupId
+  NodeGroupSecurityGroup:
+    Value: !GetAtt NodeGroupStack.Outputs.EKSNodeSecurityGroup
+  NodeInstanceRoleArn:
+    Value: !GetAtt IamStack.Outputs.NodeInstanceRoleArn
+  CleanupSecurityGroupDependenciesLambdaArn:
+    Value: !GetAtt FunctionStack.Outputs.CleanupSecurityGroupDependenciesLambdaArn
+  NodeAutoScalingGroup:
+    Value: !GetAtt NodeGroupStack.Outputs.NodeAutoScalingGroup
