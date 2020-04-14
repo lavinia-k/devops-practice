@@ -1,16 +1,23 @@
 pipeline {
     agent any
+    environment {
+        registry = "laviniak/practice-flask-app"
+        registryCredential = ‘dockerhub’
+    }
     stages {
         stage('Lint HTML') {
             steps {
                 sh 'tidy -q -e *.html'
+                sh 'whoami'
             }
         }
         stage('Build image') {
             /* This builds the actual image; synonymous to
              * docker build on the command line */
             steps {
-                sh 'docker build -t practice-flask-app:latest ./flask-app'
+                script {
+                    app = docker.build("flask-app/Dockerfile")
+                }
             }
         }
 
