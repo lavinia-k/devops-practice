@@ -13,7 +13,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    app = docker.build("laviniak/practice-flask-app", "-f ./flask-app/Dockerfile")
+                    app = docker.build("laviniak/practice-flask-app", "-f ./flask-app/Dockerfile .")
                 }
             }
         }
