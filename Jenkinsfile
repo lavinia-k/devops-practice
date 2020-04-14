@@ -13,6 +13,13 @@ pipeline {
                 }
             }
         }
+        stage('Upload EKS CFN to AWS') {
+            steps {
+                withAWS(region: 'us-east-1', credentials: 'aws-static') {
+                    s3Upload(bucket:'devops-practice-resources', file: 'kubernetes-cluster/eks-stack.yaml')
+                }
+            }
+        }
         stage('Validate EKS CFN') {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-static') {
@@ -20,19 +27,19 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Kubernetes Cluster CFN') {
-            steps {
-                withAWS(region: 'us-east-1', credentials: 'aws-static') {
-                    cfnUpdate(
-                        stack: 'kubernetes-cluster', 
-                        file: 'kubernetes-cluster/cluster-infra.yaml',
-                        params: 
-                            ['KeyPairName': 'kubernetes',
-                             'AvailabilityZones': 'us-east-1a, us-east-1b, us-east-1c',
-                             'RemoteAccessCIDR': '110.33.24.184/32'])
-                }
-            }
-        }
+        // stage('Deploy Kubernetes Cluster CFN') {
+        //     steps {
+        //         withAWS(region: 'us-east-1', credentials: 'aws-static') {
+        //             cfnUpdate(
+        //                 stack: 'kubernetes-cluster', 
+        //                 file: 'kubernetes-cluster/cluster-infra.yaml',
+        //                 params: 
+        //                     ['KeyPairName': 'kubernetes',
+        //                      'AvailabilityZones': 'us-east-1a, us-east-1b, us-east-1c',
+        //                      'RemoteAccessCIDR': '110.33.24.184/32'])
+        //         }
+        //     }
+        // }
     }
 
 }
