@@ -433,69 +433,69 @@ Resources:
         PublicSubnet3CIDR: !Ref 'PublicSubnet3CIDR'
         PublicSubnetTag2: "kubernetes.io/role/elb="
         VPCCIDR: !Ref 'VPCCIDR'
-  EKSStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub
-        - 'https://devops-practice-resources.s3.us-east-1.amazonaws.com/eks-stack.yaml'
-        - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-          S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-      Parameters:
-        PublicSubnet1ID: !GetAtt VPCStack.Outputs.PublicSubnet1ID
-        PublicSubnet2ID: !If
-          - 2AZDeployment
-          - !GetAtt VPCStack.Outputs.PublicSubnet2ID
-          - !Ref AWS::NoValue
-        PublicSubnet3ID: !If
-          - 3AZDeployment
-          - !GetAtt VPCStack.Outputs.PublicSubnet3ID
-          - !Ref AWS::NoValue
-        KeyPairName: !Ref KeyPairName
-        QSS3BucketName: !Ref QSS3BucketName
-        QSS3KeyPrefix: !Ref QSS3KeyPrefix
-        QSS3BucketRegion: !Ref QSS3BucketRegion
-        PrivateSubnet1ID: !GetAtt VPCStack.Outputs.PrivateSubnet1AID
-        PrivateSubnet2ID: !If
-          - 2AZDeployment
-          - !GetAtt VPCStack.Outputs.PrivateSubnet2AID
-          - !Ref AWS::NoValue
-        PrivateSubnet3ID: !If
-          - 3AZDeployment
-          - !GetAtt VPCStack.Outputs.PrivateSubnet3AID
-          - !Ref AWS::NoValue
-        NumberOfNodes: !Ref NumberOfNodes
-        MaxNumberOfNodes: !Ref MaxNumberOfNodes
-        NodeGroupName: !Ref NodeGroupName
-        NodeVolumeSize: !Ref NodeVolumeSize
-        ManagedNodeGroup: !Ref ManagedNodeGroup
-        ManagedNodeGroupAMIType: !Ref ManagedNodeGroupAMIType
-        LambdaZipsBucketName: !Ref LambdaZipsBucketName
-        NodeInstanceType: !Ref NodeInstanceType
-        RemoteAccessCIDR: !Ref RemoteAccessCIDR
-        AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
-        VPCID: !GetAtt VPCStack.Outputs.VPCID
-        KubernetesVersion: !Ref KubernetesVersion
-        ProvisionClusterAutoScaler: !Ref ClusterAutoScaler
-        EfsStorageClass: !Ref EfsStorageClass
-        EfsPerformanceMode: !Ref EfsPerformanceMode
-        EfsThroughputMode: !Ref EfsThroughputMode
-        EfsProvisionedThroughputInMibps: !Ref EfsProvisionedThroughputInMibps
-        ProvisionMonitoringStack: !Ref MonitoringStack
-        ProvisionBastionHost: !Ref ProvisionBastionHost
-Outputs:
-  KubeConfigPath:
-    Value: !GetAtt EKSStack.Outputs.KubeConfigPath
-  HelmLambdaArn:
-    Value: !GetAtt EKSStack.Outputs.HelmLambdaArn
-  KubeManifestLambdaArn:
-    Value: !GetAtt EKSStack.Outputs.KubeManifestLambdaArn
-  KubeGetLambdaArn:
-    Value: !GetAtt EKSStack.Outputs.KubeGetLambdaArn
-  EKSClusterName:
-    Value: !GetAtt EKSStack.Outputs.EKSClusterName
-  BastionIP:
-    Value: !GetAtt EKSStack.Outputs.BastionIP
-  BastionSecurityGroup:
-    Value: !GetAtt EKSStack.Outputs.BastionSecurityGroup
-  NodeGroupSecurityGroup:
-    Value: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
+  # EKSStack:
+  #   Type: AWS::CloudFormation::Stack
+  #   Properties:
+  #     TemplateURL: !Sub
+  #       - 'https://devops-practice-resources.s3.us-east-1.amazonaws.com/eks-stack.yaml'
+  #       - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+  #         S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+  #     Parameters:
+  #       PublicSubnet1ID: !GetAtt VPCStack.Outputs.PublicSubnet1ID
+  #       PublicSubnet2ID: !If
+  #         - 2AZDeployment
+  #         - !GetAtt VPCStack.Outputs.PublicSubnet2ID
+  #         - !Ref AWS::NoValue
+  #       PublicSubnet3ID: !If
+  #         - 3AZDeployment
+  #         - !GetAtt VPCStack.Outputs.PublicSubnet3ID
+  #         - !Ref AWS::NoValue
+  #       KeyPairName: !Ref KeyPairName
+  #       QSS3BucketName: !Ref QSS3BucketName
+  #       QSS3KeyPrefix: !Ref QSS3KeyPrefix
+  #       QSS3BucketRegion: !Ref QSS3BucketRegion
+  #       PrivateSubnet1ID: !GetAtt VPCStack.Outputs.PrivateSubnet1AID
+  #       PrivateSubnet2ID: !If
+  #         - 2AZDeployment
+  #         - !GetAtt VPCStack.Outputs.PrivateSubnet2AID
+  #         - !Ref AWS::NoValue
+  #       PrivateSubnet3ID: !If
+  #         - 3AZDeployment
+  #         - !GetAtt VPCStack.Outputs.PrivateSubnet3AID
+  #         - !Ref AWS::NoValue
+  #       NumberOfNodes: !Ref NumberOfNodes
+  #       MaxNumberOfNodes: !Ref MaxNumberOfNodes
+  #       NodeGroupName: !Ref NodeGroupName
+  #       NodeVolumeSize: !Ref NodeVolumeSize
+  #       ManagedNodeGroup: !Ref ManagedNodeGroup
+  #       ManagedNodeGroupAMIType: !Ref ManagedNodeGroupAMIType
+  #       LambdaZipsBucketName: !Ref LambdaZipsBucketName
+  #       NodeInstanceType: !Ref NodeInstanceType
+  #       RemoteAccessCIDR: !Ref RemoteAccessCIDR
+  #       AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
+  #       VPCID: !GetAtt VPCStack.Outputs.VPCID
+  #       KubernetesVersion: !Ref KubernetesVersion
+  #       ProvisionClusterAutoScaler: !Ref ClusterAutoScaler
+  #       EfsStorageClass: !Ref EfsStorageClass
+  #       EfsPerformanceMode: !Ref EfsPerformanceMode
+  #       EfsThroughputMode: !Ref EfsThroughputMode
+  #       EfsProvisionedThroughputInMibps: !Ref EfsProvisionedThroughputInMibps
+  #       ProvisionMonitoringStack: !Ref MonitoringStack
+  #       ProvisionBastionHost: !Ref ProvisionBastionHost
+# Outputs:
+#   KubeConfigPath:
+#     Value: !GetAtt EKSStack.Outputs.KubeConfigPath
+#   HelmLambdaArn:
+#     Value: !GetAtt EKSStack.Outputs.HelmLambdaArn
+#   KubeManifestLambdaArn:
+#     Value: !GetAtt EKSStack.Outputs.KubeManifestLambdaArn
+#   KubeGetLambdaArn:
+#     Value: !GetAtt EKSStack.Outputs.KubeGetLambdaArn
+#   EKSClusterName:
+#     Value: !GetAtt EKSStack.Outputs.EKSClusterName
+#   BastionIP:
+#     Value: !GetAtt EKSStack.Outputs.BastionIP
+#   BastionSecurityGroup:
+#     Value: !GetAtt EKSStack.Outputs.BastionSecurityGroup
+#   NodeGroupSecurityGroup:
+#     Value: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
