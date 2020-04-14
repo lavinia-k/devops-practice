@@ -62,7 +62,8 @@ pipeline {
         stage('Deploy app') {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-static') {
-                    sh 'aws eks --region us-east-1 update-kubeconfig --name EKS-q0RORZurvK2e'
+                    sh '/usr/local/bin/aws eks --region us-east-1 update-kubeconfig --name EKS-q0RORZurvK2e'
+                    sh 'kubectl get all'
                 }
             }
         }
