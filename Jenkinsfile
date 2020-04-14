@@ -20,6 +20,13 @@ pipeline {
                 }
             }
         }
+        stage('Deploy Kubernetes Cluster CFN') {
+            steps {
+                withAWS(region: 'us-east-1', credentials: 'aws-static') {
+                    cfnUpdate(stack: 'kubernetes-cluster', file: 'kubernetes-cluster/cluster-infra.yaml')
+                }
+            }
+        }
     }
 
 }
