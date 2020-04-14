@@ -457,47 +457,47 @@ Resources:
     Properties:
       GroupDescription: Cluster communication
       VpcId: !Ref VPCID
-  # EKSControlPlane:
-  #   Type: "Custom::CfnStackAssumeRole"
-  #   Version: '1.0'
-  #   Properties:
-  #     ServiceToken: !GetAtt FunctionStack.Outputs.QuickStartStackMakerLambdaArn
-  #     RoleArn: !GetAtt IamStack.Outputs.ControlPlaneProvisionRoleArn
-  #     TemplateURL: !Sub
-  #       - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-controlplane.template.yaml'
-  #       - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-  #         S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-  #     ParentStackId: !Ref AWS::StackId
-  #     CfnParameters:
-  #       SecurityGroupIds: !Ref ControlPlaneSecurityGroup
-  #       SubnetIds: !If
-  #         - EnablePublicSubnets
-  #         - !If
-  #           - 3AZDeployment
-  #           - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID, !Ref PublicSubnet1ID, !Ref PublicSubnet2ID, !Ref PublicSubnet3ID ]]
-  #           - !If
-  #             - 2AZDeployment
-  #             - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PublicSubnet1ID, !Ref PublicSubnet2ID ]]
-  #             - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PublicSubnet1ID ]]
-  #         - !If
-  #           - 3AZDeployment
-  #           - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID ]]
-  #           - !If
-  #             - 2AZDeployment
-  #             - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID ]]
-  #             - !Join [",", [ !Ref PrivateSubnet1ID ]]
-  #       RoleArn: !GetAtt IamStack.Outputs.ControlPlaneRoleArn
-  #       NodeInstanceRoleArn: !GetAtt IamStack.Outputs.NodeInstanceRoleArn
-  #       KubeManifestLambdaArn: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn
-  #       KmsKeyArn: !GetAtt KmsKey.Arn
-  #       KubeConfigUploadRoleArn: !GetAtt IamStack.Outputs.KubeConfigUploadRoleArn
-  #       KubeConfigUploadLambdaArn: !GetAtt FunctionStack.Outputs.KubeConfigUploadLambdaArn
-  #       KubeConfigS3Bucket: !Ref KubeConfigBucket
-  #       AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
-  #       KubernetesVersion: !Ref KubernetesVersion
-  #       KmsContext: !Ref KubeConfigKmsContext
-  #       CleanupLoadBalancersLambdaArn: !GetAtt FunctionStack.Outputs.CleanupLoadBalancersLambdaArn
-  #       GetCallerArnLambdaArn: !GetAtt FunctionStack.Outputs.GetCallerArnLambdaArn
+  EKSControlPlane:
+    Type: "Custom::CfnStackAssumeRole"
+    Version: '1.0'
+    Properties:
+      ServiceToken: !GetAtt FunctionStack.Outputs.QuickStartStackMakerLambdaArn
+      RoleArn: !GetAtt IamStack.Outputs.ControlPlaneProvisionRoleArn
+      TemplateURL: !Sub
+        - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-controlplane.template.yaml'
+        - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+          S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+      ParentStackId: !Ref AWS::StackId
+      CfnParameters:
+        SecurityGroupIds: !Ref ControlPlaneSecurityGroup
+        SubnetIds: !If
+          - EnablePublicSubnets
+          - !If
+            - 3AZDeployment
+            - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID, !Ref PublicSubnet1ID, !Ref PublicSubnet2ID, !Ref PublicSubnet3ID ]]
+            - !If
+              - 2AZDeployment
+              - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PublicSubnet1ID, !Ref PublicSubnet2ID ]]
+              - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PublicSubnet1ID ]]
+          - !If
+            - 3AZDeployment
+            - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID ]]
+            - !If
+              - 2AZDeployment
+              - !Join [",", [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID ]]
+              - !Join [",", [ !Ref PrivateSubnet1ID ]]
+        RoleArn: !GetAtt IamStack.Outputs.ControlPlaneRoleArn
+        NodeInstanceRoleArn: !GetAtt IamStack.Outputs.NodeInstanceRoleArn
+        KubeManifestLambdaArn: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn
+        KmsKeyArn: !GetAtt KmsKey.Arn
+        KubeConfigUploadRoleArn: !GetAtt IamStack.Outputs.KubeConfigUploadRoleArn
+        KubeConfigUploadLambdaArn: !GetAtt FunctionStack.Outputs.KubeConfigUploadLambdaArn
+        KubeConfigS3Bucket: !Ref KubeConfigBucket
+        AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
+        KubernetesVersion: !Ref KubernetesVersion
+        KmsContext: !Ref KubeConfigKmsContext
+        CleanupLoadBalancersLambdaArn: !GetAtt FunctionStack.Outputs.CleanupLoadBalancersLambdaArn
+        GetCallerArnLambdaArn: !GetAtt FunctionStack.Outputs.GetCallerArnLambdaArn
   KmsKey:
     Type: "AWS::KMS::Key"
     Properties:
