@@ -1,16 +1,23 @@
 pipeline {
     agent any
-    // environment {
-    //     registry = "laviniak/practice-flask-app"
-    //     registryCredential = ‘dockerhub’
-    // }
     stages {
         stage('Lint HTML') {
             steps {
                 sh 'tidy -q -e *.html'
             }
         }
-        stage('Build image') {
+
+
+        stage('Validate CFN templates') {
+            steps {
+                withAWS(region: 'us-east-1', credentials: 'aws-static') {
+                    cfnValidate(file: 'kubernetes-cluster/cluster-infra.yaml')
+                    cfnValidate(file: 'kubernetes-cluster/eks-stack.yaml')
+                }
+            }
+        }
+
+        stage('Build app Docker image') {
             steps {
                 script {
                     app = docker.build("laviniak/practice-flask-app", "-f ./flask-app/Dockerfile .")
@@ -18,13 +25,7 @@ pipeline {
             }
         }
 
-        // stage('Test image') {
-        //     app.inside {
-        //         sh 'echo "Tests passed"'
-        //     }
-        // }
-
-        stage('Push image') {
+        stage('Push app Docker image') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
@@ -35,27 +36,14 @@ pipeline {
             }
         }
 
-        stage('Upload to AWS') {
-            steps {
-                withAWS(region: 'us-east-1', credentials: 'aws-static') {
-                    s3Upload(bucket:'udacity-devops-engineer-pipelines-jenkins', file: 'index.html')
-                }
-            }
-        }
-        stage('Upload EKS CFN to AWS') {
+        stage('Upload nested template CFN to S3') {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-static') {
                     s3Upload(bucket:'devops-practice-resources', file: 'kubernetes-cluster/eks-stack.yaml')
                 }
             }
         }
-        stage('Validate EKS CFN') {
-            steps {
-                withAWS(region: 'us-east-1', credentials: 'aws-static') {
-                    cfnValidate(file: 'kubernetes-cluster/cluster-infra.yaml')
-                }
-            }
-        }
+
         stage('Deploy Kubernetes Cluster CFN') {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-static') {
@@ -69,6 +57,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy app') {
+            steps {
+                withAWS(region: 'us-east-1', credentials: 'aws-static') {
+                    sh 'aws eks --region us-east-1 update-kubeconfig --name EKS-q0RORZurvK2e'
+                }
+            }
+        }
+
     }
 
 }
