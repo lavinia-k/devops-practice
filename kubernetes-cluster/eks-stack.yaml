@@ -515,7 +515,7 @@ Resources:
         {
           "Sid": "root access",
           "Effect": "Allow",
-          "Principal": {"AWS": !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:jenkins"},
+          "Principal": {"AWS": !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:user/jenkins"},
           "Action": "kms:*",
           "Resource": "*"
         },
