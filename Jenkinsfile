@@ -10,9 +10,7 @@ pipeline {
             /* This builds the actual image; synonymous to
              * docker build on the command line */
             steps {
-                script {
-                    app = docker.build("flask-app/Dockerfile")
-                }
+                sh 'docker build -t practice-flask-app:latest ./flask-app'
             }
         }
 
