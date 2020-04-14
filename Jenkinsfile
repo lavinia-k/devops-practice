@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Lint Python') {
             steps {
-                sh 'python3 -m venv ~/.devops'
-                sh 'source ~/.devops/bin/activate && pip install -r flask-app/requirements.txt && pylint --disable=R,C,W1203 flask-app/app.py'
+                sh 'pip install -r flask-app/requirements.txt && pylint --disable=R,C,W1203 flask-app/app.py'
             }
         }
 
