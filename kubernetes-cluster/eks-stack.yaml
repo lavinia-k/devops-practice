@@ -537,32 +537,32 @@ Resources:
       }
   KubeConfigBucket:
     Type: "AWS::S3::Bucket"
-  # PrometheusStack:
-  #   DependsOn: EKSControlPlane
-  #   Condition: EnableMonitoringPrometheusGrafana
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub
-  #       - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-prometheus.template.yaml'
-  #       - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-  #         S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-  #     Parameters:
-  #       HelmLambdaArn: !GetAtt FunctionStack.Outputs.HelmLambdaArn
-  #       KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
-  #       KubeConfigKmsContext: !Ref KubeConfigKmsContext
-  # GrafanaStack:
-  #   DependsOn: EKSControlPlane
-  #   Condition: EnableMonitoringPrometheusGrafana
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub
-  #       - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-grafana.template.yaml'
-  #       - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-  #         S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-  #     Parameters:
-  #       HelmLambdaArn: !GetAtt FunctionStack.Outputs.HelmLambdaArn
-  #       KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
-  #       KubeConfigKmsContext: !Ref KubeConfigKmsContext
+  PrometheusStack:
+    DependsOn: EKSControlPlane
+    Condition: EnableMonitoringPrometheusGrafana
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub
+        - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-prometheus.template.yaml'
+        - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+          S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+      Parameters:
+        HelmLambdaArn: !GetAtt FunctionStack.Outputs.HelmLambdaArn
+        KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
+        KubeConfigKmsContext: !Ref KubeConfigKmsContext
+  GrafanaStack:
+    DependsOn: EKSControlPlane
+    Condition: EnableMonitoringPrometheusGrafana
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub
+        - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-grafana.template.yaml'
+        - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+          S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+      Parameters:
+        HelmLambdaArn: !GetAtt FunctionStack.Outputs.HelmLambdaArn
+        KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
+        KubeConfigKmsContext: !Ref KubeConfigKmsContext
 # Outputs:
 #   KubeConfigPath:
 #     Value: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
