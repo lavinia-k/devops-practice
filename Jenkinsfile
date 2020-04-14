@@ -8,15 +8,12 @@ pipeline {
         stage('Lint HTML') {
             steps {
                 sh 'tidy -q -e *.html'
-                sh 'whoami'
             }
         }
         stage('Build image') {
-            /* This builds the actual image; synonymous to
-             * docker build on the command line */
             steps {
                 script {
-                    app = docker.build("flask-app/Dockerfile")
+                    app = docker.build("laviniak/practice-flask-app", "-f ./flask-app/Dockerfile")
                 }
             }
         }
