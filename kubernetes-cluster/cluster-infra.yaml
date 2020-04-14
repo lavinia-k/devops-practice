@@ -482,20 +482,20 @@ Resources:
         EfsProvisionedThroughputInMibps: !Ref EfsProvisionedThroughputInMibps
         ProvisionMonitoringStack: !Ref MonitoringStack
         ProvisionBastionHost: !Ref ProvisionBastionHost
-Outputs:
-  KubeConfigPath:
-    Value: !GetAtt EKSStack.Outputs.KubeConfigPath
-  HelmLambdaArn:
-    Value: !GetAtt EKSStack.Outputs.HelmLambdaArn
-  KubeManifestLambdaArn:
-    Value: !GetAtt EKSStack.Outputs.KubeManifestLambdaArn
-  KubeGetLambdaArn:
-    Value: !GetAtt EKSStack.Outputs.KubeGetLambdaArn
-  EKSClusterName:
-    Value: !GetAtt EKSStack.Outputs.EKSClusterName
-  BastionIP:
-    Value: !GetAtt EKSStack.Outputs.BastionIP
-  BastionSecurityGroup:
-    Value: !GetAtt EKSStack.Outputs.BastionSecurityGroup
-  NodeGroupSecurityGroup:
-    Value: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
+# Outputs:
+#   KubeConfigPath:
+#     Value: !GetAtt EKSStack.Outputs.KubeConfigPath
+#   HelmLambdaArn:
+#     Value: !GetAtt EKSStack.Outputs.HelmLambdaArn
+#   KubeManifestLambdaArn:
+#     Value: !GetAtt EKSStack.Outputs.KubeManifestLambdaArn
+#   KubeGetLambdaArn:
+#     Value: !GetAtt EKSStack.Outputs.KubeGetLambdaArn
+#   EKSClusterName:
+#     Value: !GetAtt EKSStack.Outputs.EKSClusterName
+#   # BastionIP:
+#   #   Value: !GetAtt EKSStack.Outputs.BastionIP
+#   # BastionSecurityGroup:
+#   #   Value: !GetAtt EKSStack.Outputs.BastionSecurityGroup
+#   NodeGroupSecurityGroup:
+#     Value: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
