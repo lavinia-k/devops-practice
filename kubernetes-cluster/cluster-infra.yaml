@@ -211,7 +211,7 @@ Parameters:
     Description: "[OPTIONAL] Comma separated list of IAM user/role Amazon Resource Names (ARNs) to be granted admin access to the EKS cluster"
     Type: CommaDelimitedList
   NodeInstanceType:
-    Default: t3.medium
+    Default: t2.small
     AllowedValues:
       - t2.small
       - t2.medium
