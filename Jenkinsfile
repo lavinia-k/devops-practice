@@ -25,7 +25,7 @@ pipeline {
                 withAWS(region: 'us-east-1', credentials: 'aws-static') {
                     cfnUpdate(
                         stack: 'kubernetes-cluster', 
-                        file: 'kubernetes-cluster/cluster-infra.yaml'
+                        file: 'kubernetes-cluster/cluster-infra.yaml',
                         params: 
                             ['KeyPairName': 'kubernetes',
                              'AvailabilityZones': ['us-east-1a', 'us-east-1b', 'us-east-1c'],
