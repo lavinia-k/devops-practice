@@ -13,6 +13,13 @@ pipeline {
                 }
             }
         }
+        stage('Validate EKS CFN') {
+            steps {
+                withAWS(region: 'us-east-1', credentials: 'aws-static') {
+                    cfnValidate(file: 'kubernetes-cluster/cluster-infra.yaml')
+                }
+            }
+        }
     }
 
 }
