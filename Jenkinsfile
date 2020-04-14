@@ -28,7 +28,7 @@ pipeline {
                         file: 'kubernetes-cluster/cluster-infra.yaml',
                         params: 
                             ['KeyPairName': 'kubernetes',
-                             'AvailabilityZones': '[us-east-1a, us-east-1b, us-east-1c]',
+                             'AvailabilityZones': 'us-east-1a, us-east-1b, us-east-1c',
                              'RemoteAccessCIDR': '110.33.24.184/32'])
                 }
             }
