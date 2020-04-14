@@ -1,12 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage('Lint HTML') {
+        stage('Lint Python') {
             steps {
-                sh 'tidy -q -e *.html'
+                script {
+                    python3 -m venv ~/.devops
+                    source ~/.devops/bin/activate && pip install flask-app/requirements.txt && pylint --disable=R,C,W1203 flask-app/app.py
+                }
             }
         }
-
 
         stage('Validate CFN templates') {
             steps {
