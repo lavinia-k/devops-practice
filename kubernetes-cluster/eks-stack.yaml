@@ -343,16 +343,16 @@ Resources:
   #       KubeManifestLambdaArn: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn
   #       KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
   #       KubeConfigKmsContext: !Ref KubeConfigKmsContext
-  BastionSShToNodes:
-    Condition: EnableBastion
-    Type: "AWS::EC2::SecurityGroupIngress"
-    Properties:
-      Description: Allow SSH from Bastion server to Nodes
-      GroupId: !GetAtt NodeGroupStack.Outputs.EKSNodeSecurityGroup
-      SourceSecurityGroupId: !GetAtt BastionStack.Outputs.BastionSecurityGroupID
-      IpProtocol: tcp
-      ToPort: 22
-      FromPort: 22
+  # BastionSShToNodes:
+  #   Condition: EnableBastion
+  #   Type: "AWS::EC2::SecurityGroupIngress"
+  #   Properties:
+  #     Description: Allow SSH from Bastion server to Nodes
+  #     GroupId: !GetAtt NodeGroupStack.Outputs.EKSNodeSecurityGroup
+  #     SourceSecurityGroupId: !GetAtt BastionStack.Outputs.BastionSecurityGroupID
+  #     IpProtocol: tcp
+  #     ToPort: 22
+  #     FromPort: 22
   BastionToAPIServerAccess:
     Condition: EnableBastion
     Type: "AWS::EC2::SecurityGroupIngress"
