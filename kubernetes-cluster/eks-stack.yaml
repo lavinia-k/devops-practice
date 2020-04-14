@@ -407,22 +407,22 @@ Resources:
         CleanupLoadBalancersRoleArn: !GetAtt IamStack.Outputs.CleanupLoadBalancersRoleArn
         CleanupSecurityGroupDependenciesRoleArn: !GetAtt IamStack.Outputs.CleanupSecurityGroupDependenciesRoleArn
         GetCallerArnRoleArn: !GetAtt IamStack.Outputs.GetCallerArnRoleArn
-  # ClusterAutoScalerStack:
-  #   Condition: EnableClusterAutoScaler
-  #   Type: AWS::CloudFormation::Stack
-  #   Properties:
-  #     TemplateURL: !Sub
-  #       - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-cluster-autoscaler.template.yaml'
-  #       - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-  #         S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-  #     Parameters:
-  #       HelmLambdaArn: !GetAtt FunctionStack.Outputs.HelmLambdaArn
-  #       KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
-  #       KubeConfigKmsContext: !Ref KubeConfigKmsContext
-  #       NodeInstanceRoleName: !GetAtt IamStack.Outputs.NodeInstanceRoleName
-  #       NodeAutoScalingGroup: !GetAtt NodeGroupStack.Outputs.NodeAutoScalingGroup
-  #       EksClusterName: !GetAtt EKSControlPlane.EKSName
-  #       KubernetesVersion: !Ref KubernetesVersion
+  ClusterAutoScalerStack:
+    Condition: EnableClusterAutoScaler
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub
+        - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-cluster-autoscaler.template.yaml'
+        - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+          S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+      Parameters:
+        HelmLambdaArn: !GetAtt FunctionStack.Outputs.HelmLambdaArn
+        KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
+        KubeConfigKmsContext: !Ref KubeConfigKmsContext
+        NodeInstanceRoleName: !GetAtt IamStack.Outputs.NodeInstanceRoleName
+        NodeAutoScalingGroup: !GetAtt NodeGroupStack.Outputs.NodeAutoScalingGroup
+        EksClusterName: !GetAtt EKSControlPlane.EKSName
+        KubernetesVersion: !Ref KubernetesVersion
   # EfsStack:
   #   Condition: EnableEfs
   #   Type: AWS::CloudFormation::Stack
