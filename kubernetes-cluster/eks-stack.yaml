@@ -303,56 +303,56 @@ Resources:
           K8S_ENDPOINT=${EKSControlPlane.EKSEndpoint}${Joiner}
           ${BastionVariables}
         - Joiner: !If [AdditionalVars, ",", ""]
-  # NodeGroupStack:
-  #   Type: "AWS::CloudFormation::Stack"
-  #   DependsOn:
-  #     - EKSControlPlane
-  #     - IamStack
-  #   Properties:
-  #     TemplateURL: !Sub
-  #       - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-nodegroup.template.yaml'
-  #       - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-  #         S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-  #     Parameters:
-  #       HttpProxy: !Ref HttpProxy
-  #       KeyPairName: !Ref 'KeyPairName'
-  #       NodeAMIOS: !Ref NodeAMIOS
-  #       PrivateSubnet1ID: !Ref PrivateSubnet1ID
-  #       PrivateSubnet2ID: !If [2AZDeployment, !Ref PrivateSubnet2ID, !Ref "AWS::NoValue" ]
-  #       PrivateSubnet3ID: !If [3AZDeployment, !Ref PrivateSubnet3ID, !Ref "AWS::NoValue" ]
-  #       VPCID: !Ref VPCID
-  #       NodeInstanceType: !Ref NodeInstanceType
-  #       NumberOfNodes: !Ref NumberOfNodes
-  #       MaxNumberOfNodes: !Ref MaxNumberOfNodes
-  #       NodeGroupName: !Ref NodeGroupName
-  #       NodeVolumeSize: !Ref NodeVolumeSize
-  #       CustomAmiId: !Ref CustomAmiId
-  #       ManagedNodeGroup: !Ref ManagedNodeGroup
-  #       ManagedNodeGroupAMIType: !Ref ManagedNodeGroupAMIType
-  #       EKSControlPlane: !GetAtt EKSControlPlane.EKSName
-  #       ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
-  #       NodeInstanceProfile: !GetAtt IamStack.Outputs.NodeInstanceProfile
-  #       NodeInstanceRoleName: !GetAtt IamStack.Outputs.NodeInstanceRoleName
-  #       NodeInstanceRoleArn: !GetAtt IamStack.Outputs.NodeInstanceRoleArn
-  #       KubernetesVersion: !Ref KubernetesVersion
-  #       BootstrapArguments: !Ref BootstrapArguments
-  #       QSS3BucketName: !Ref QSS3BucketName
-  #       QSS3KeyPrefix: !Ref QSS3KeyPrefix
-  #       QSS3BucketRegion: !Ref QSS3BucketRegion
-  #       CleanupSecurityGroupDependenciesLambdaArn: !GetAtt FunctionStack.Outputs.CleanupSecurityGroupDependenciesLambdaArn
-  #       KubeManifestLambdaArn: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn
-  #       KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
-  #       KubeConfigKmsContext: !Ref KubeConfigKmsContext
-  # BastionSShToNodes:
-  #   Condition: EnableBastion
-  #   Type: "AWS::EC2::SecurityGroupIngress"
-  #   Properties:
-  #     Description: Allow SSH from Bastion server to Nodes
-  #     GroupId: !GetAtt NodeGroupStack.Outputs.EKSNodeSecurityGroup
-  #     SourceSecurityGroupId: !GetAtt BastionStack.Outputs.BastionSecurityGroupID
-  #     IpProtocol: tcp
-  #     ToPort: 22
-  #     FromPort: 22
+  NodeGroupStack:
+    Type: "AWS::CloudFormation::Stack"
+    DependsOn:
+      - EKSControlPlane
+      - IamStack
+    Properties:
+      TemplateURL: !Sub
+        - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/amazon-eks-nodegroup.template.yaml'
+        - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+          S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+      Parameters:
+        HttpProxy: !Ref HttpProxy
+        KeyPairName: !Ref 'KeyPairName'
+        NodeAMIOS: !Ref NodeAMIOS
+        PrivateSubnet1ID: !Ref PrivateSubnet1ID
+        PrivateSubnet2ID: !If [2AZDeployment, !Ref PrivateSubnet2ID, !Ref "AWS::NoValue" ]
+        PrivateSubnet3ID: !If [3AZDeployment, !Ref PrivateSubnet3ID, !Ref "AWS::NoValue" ]
+        VPCID: !Ref VPCID
+        NodeInstanceType: !Ref NodeInstanceType
+        NumberOfNodes: !Ref NumberOfNodes
+        MaxNumberOfNodes: !Ref MaxNumberOfNodes
+        NodeGroupName: !Ref NodeGroupName
+        NodeVolumeSize: !Ref NodeVolumeSize
+        CustomAmiId: !Ref CustomAmiId
+        ManagedNodeGroup: !Ref ManagedNodeGroup
+        ManagedNodeGroupAMIType: !Ref ManagedNodeGroupAMIType
+        EKSControlPlane: !GetAtt EKSControlPlane.EKSName
+        ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
+        NodeInstanceProfile: !GetAtt IamStack.Outputs.NodeInstanceProfile
+        NodeInstanceRoleName: !GetAtt IamStack.Outputs.NodeInstanceRoleName
+        NodeInstanceRoleArn: !GetAtt IamStack.Outputs.NodeInstanceRoleArn
+        KubernetesVersion: !Ref KubernetesVersion
+        BootstrapArguments: !Ref BootstrapArguments
+        QSS3BucketName: !Ref QSS3BucketName
+        QSS3KeyPrefix: !Ref QSS3KeyPrefix
+        QSS3BucketRegion: !Ref QSS3BucketRegion
+        CleanupSecurityGroupDependenciesLambdaArn: !GetAtt FunctionStack.Outputs.CleanupSecurityGroupDependenciesLambdaArn
+        KubeManifestLambdaArn: !GetAtt FunctionStack.Outputs.KubeManifestLambdaArn
+        KubeConfigPath: !Sub "s3://${KubeConfigBucket}/.kube/config.enc"
+        KubeConfigKmsContext: !Ref KubeConfigKmsContext
+  BastionSShToNodes:
+    Condition: EnableBastion
+    Type: "AWS::EC2::SecurityGroupIngress"
+    Properties:
+      Description: Allow SSH from Bastion server to Nodes
+      GroupId: !GetAtt NodeGroupStack.Outputs.EKSNodeSecurityGroup
+      SourceSecurityGroupId: !GetAtt BastionStack.Outputs.BastionSecurityGroupID
+      IpProtocol: tcp
+      ToPort: 22
+      FromPort: 22
   BastionToAPIServerAccess:
     Condition: EnableBastion
     Type: "AWS::EC2::SecurityGroupIngress"
