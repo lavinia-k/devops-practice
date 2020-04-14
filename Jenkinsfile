@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    environment {
-        registry = "laviniak/practice-flask-app"
-        registryCredential = ‘dockerhub’
-    }
+    // environment {
+    //     registry = "laviniak/practice-flask-app"
+    //     registryCredential = ‘dockerhub’
+    // }
     stages {
         stage('Lint HTML') {
             steps {
