@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: "laviniak/practice-flask-app:{{ image_tag }}"
+        image: laviniak/practice-flask-app:{{ image_tag }}
         resources:
           requests:
             cpu: 10m

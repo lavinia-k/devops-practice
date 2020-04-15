@@ -11,4 +11,31 @@
       state: present
       validate_certs: no
       namespace: default
-      src: "deployment.yml"
+      definition:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: practice-flask-app-deployment
+          labels:
+            role: app
+        spec:
+          replicas: 2
+          strategy:
+            type: RollingUpdate
+            rollingUpdate:
+              maxUnavailable: 0
+              maxSurge: 1
+          selector:
+            matchLabels:
+              role: app
+          template:
+            metadata:
+              labels:
+                role: app
+            spec:
+              containers:
+              - name: app
+                image: laviniak/practice-flask-app:{{ image_tag }}
+                resources:
+                  requests:
+                    cpu: 10m
