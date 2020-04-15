@@ -3,7 +3,7 @@
   - name: Deploy the service
     k8s:
       state: present
-      definition: ""
+      src: "service.yml"
       validate_certs: no
       namespace: default
   - name: Deploy the application
@@ -11,4 +11,4 @@
       state: present
       validate_certs: no
       namespace: default
-      definition: ""
+      src: "deployment.yml"
