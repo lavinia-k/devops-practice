@@ -73,8 +73,7 @@ pipeline {
         stage ('Deploy') {
            steps {
                script{
-                   def image_id = "laviniak/practice-devops-app" + ":$BUILD_NUMBER"
-                   sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${image_id}\""
+                   sh "ansible-playbook playbook.yml"
                }
            }
        }
