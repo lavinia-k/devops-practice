@@ -62,7 +62,7 @@ pipeline {
         stage ('Deploy app to Kubernetes cluster with Ansible') {
            steps {
                script{
-                   sh "ansible-playbook playbook.yml"
+                   sh "ansible-playbook  playbook.yml --extra-vars \"image_tag=${env.BUILD_NUMBER}\""
                }
            }
        }
