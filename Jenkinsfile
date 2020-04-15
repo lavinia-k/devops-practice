@@ -59,18 +59,7 @@ pipeline {
             }
         }
 
-        // stage('Deploy app') {
-        //     steps {
-        //         withAWS(region: 'us-east-1', credentials: 'aws-static') {
-        //             sh '/usr/local/bin/aws eks --region us-east-1 update-kubeconfig --name EKS-q0RORZurvK2e'
-        //             sh 'kubectl get all'
-        //             sh 'kubectl apply -f app-deploy.yaml'
-
-        //         }
-        //     }
-        // }
-
-        stage ('Deploy') {
+        stage ('Deploy app to Kubernetes cluster with Ansible') {
            steps {
                script{
                    sh "ansible-playbook playbook.yml"
