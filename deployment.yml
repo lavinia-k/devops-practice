@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: practice-flask-app
+  name: practice-flask-app-deployment
+  labels:
+    role: app
 spec:
-  replicas: 3
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -11,14 +13,40 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: practice-flask-app
+      role: app
   template:
     metadata:
       labels:
-        app: practice-flask-app
+        role: app
     spec:
       containers:
-      - name: practice-flask-app
-        image: laviniak/practice-flask-app:latest
-        ports:
-        - containerPort: 80
+      - name: app
+        image: ""
+        resources:
+          requests:
+            cpu: 10m
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: practice-flask-app
+# spec:
+#   replicas: 3
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxUnavailable: 0
+#       maxSurge: 1
+#   selector:
+#     matchLabels:
+#       app: practice-flask-app
+#   template:
+#     metadata:
+#       labels:
+#         app: practice-flask-app
+#     spec:
+#       containers:
+#       - name: practice-flask-app
+#         image: laviniak/practice-flask-app:latest
+#         ports:
+#         - containerPort: 80
