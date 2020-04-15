@@ -18,7 +18,7 @@ pipeline {
             }
         }
 
-        stage('Build app Docker image') {
+        stage('Build from Dockerfile') {
             steps {
                 script {
                     app = docker.build("laviniak/practice-flask-app", "-f ./flask-app/Dockerfile .")
@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('Push app Docker image') {
+        stage('Push Docker image to Docker Hub repo') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {

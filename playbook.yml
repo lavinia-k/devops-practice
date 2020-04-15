@@ -11,6 +11,8 @@
       state: present
       validate_certs: no
       namespace: default
+      wait: yes
+      wait_timeout: 45
       definition:
         apiVersion: apps/v1
         kind: Deployment
